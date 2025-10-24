@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografis: Perangkat Lunak Produktivitas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 
+    Chosen Palette: Brilliant Blues 
+    (Hex: #00A6FB, #0582CA, #006494, #003554, #051923) 
+    (Background: #F8FAFC)
+    -->
+    
+    <!-- 
+    Narrative Plan:
+    1.  Hook: Judul dan pengantar singkat.
+    2.  Section 1 (Inform): Dua kategori utama (Desktop vs Cloud, Proprietary vs Open-Source) menggunakan kartu "Big Number" style.
+    3.  Section 2 (Compare): Tiga Radar Chart untuk membandingkan (Word Processor, Spreadsheet, Presentation) berdasarkan 4 kriteria dari materi.
+    4.  Section 3 (Organize): Flowchart "Alat yang Tepat" berdasarkan 4 skenario. Dibuat dengan HTML/CSS.
+    5.  Section 4 (Organize): Diagram Interoperabilitas/Format File. Dibuat dengan HTML/CSS.
+    6.  Section 5 (Inform): Kesimpulan dan Poin Kunci.
+    -->
+    
+    <!-- 
+    Visualization Choices:
+    1.  Kategori: Goal=Inform, Choice=Styled Cards (HTML/CSS), Justification=Menyajikan 4 poin data kunci (Desktop, Cloud, dll) dengan jelas. NO SVG.
+    2.  Perbandingan: Goal=Compare, Choice=Radar Charts (Chart.js/Canvas), Justification=Membandingkan 3 produk di 4 kriteria secara efektif. NO SVG.
+    3.  Skenario: Goal=Organize (Process), Choice=Flowchart (HTML/CSS), Justification=Menunjukkan alur keputusan dari materi. NO SVG/Mermaid.
+    4.  Format File: Goal=Organize (Grouping), Choice=Diagram (HTML/CSS), Justification=Mengelompokkan format file. NO SVG/Mermaid.
+    
+    Confirmation: NEITHER Mermaid JS NOR SVG were used in this document. All charts render to Canvas, and diagrams are built with HTML/Tailwind.
+    -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            color: #051923;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Tinggi default lebih kecil untuk mobile */
+            max-height: 400px;
+        }
+        @media (min-width: 640px) { /* sm: breakpoint */
+            .chart-container {
+                height: 350px; /* Kembali ke 350px di layar sm ke atas */
+            }
+        }
+        .flowchart-box {
+            @apply bg-white p-4 rounded-lg shadow-lg text-center font-semibold text-[#003554] border-2 border-[#00A6FB];
+        }
+        .flowchart-arrow {
+            @apply text-3xl font-bold text-[#0582CA] my-2 text-center;
+        }
+        .flowchart-result {
+            @apply bg-[#00A6FB] p-3 rounded-lg shadow-md text-center font-bold text-white;
+        }
+        .format-box {
+            @apply bg-white p-4 rounded-lg shadow-md border border-gray-200;
+        }
+        .format-title {
+            @apply font-bold text-lg mb-2 text-[#006494];
+        }
+        .format-item {
+            @apply bg-gray-100 text-gray-700 font-mono text-sm py-1 px-3 rounded-full;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="max-w-7xl mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#006494] mb-4">Infografis: Memilih Perangkat Produktivitas</h1>
+            <p class="text-xl max-w-3xl mx-auto text-[#051923]">
+                Desktop atau Cloud? Berbayar atau Gratis? Mari kita bedah perangkat lunak mana yang tepat untuk setiap kebutuhan Anda.
+            </p>
+        </header>
+
+        <main>
+            <section class="mb-20">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#006494]">Dua Kategori Utama</h2>
+                <p class="text-lg text-center max-w-3xl mx-auto mb-12 text-[#051923]">
+                    Sebelum memilih, pahami dua cara utama mengkategorikan perangkat lunak produktivitas.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    
+                    <div class="bg-white rounded-lg shadow-xl p-6 border-t-4 border-[#00A6FB]">
+                        <h3 class="text-2xl font-bold text-[#003554] mb-3">Berdasarkan Ketersediaan</h3>
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-lg bg-gray-50">
+                                <span class="text-4xl mr-3">💻</span>
+                                <span class="text-xl font-semibold">Desktop (Offline)</span>
+                                <p class="text-sm text-gray-600 mt-1">Diinstal di komputermu. Fitur sangat lengkap dan bekerja tanpa internet. (Contoh: LibreOffice, Office lama)</p>
+                            </div>
+                            <div class="p-4 rounded-lg bg-gray-50">
+                                <span class="text-4xl mr-3">☁️</span>
+                                <span class="text-xl font-semibold">Cloud (Online)</span>
+                                <p class="text-sm text-gray-600 mt-1">Diakses via browser. Hebat untuk kolaborasi tim secara *real-time*. (Contoh: Google Workspace, Microsoft 365)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-xl p-6 border-t-4 border-[#0582CA]">
+                        <h3 class="text-2xl font-bold text-[#003554] mb-3">Berdasarkan Lisensi</h3>
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-lg bg-gray-50">
+                                <span class="text-4xl mr-3">💰</span>
+                                <span class="text-xl font-semibold">Proprietary (Berbayar)</span>
+                                <p class="text-sm text-gray-600 mt-1">Dimiliki perusahaan, biasanya berbayar (langganan atau beli). Kode tertutup. (Contoh: Microsoft 365, Canva Pro)</p>
+                            </div>
+                            <div class="p-4 rounded-lg bg-gray-50">
+                                <span class="text-4xl mr-3">🔄</span>
+                                <span class="text-xl font-semibold">Open-Source (Gratis)</span>
+                                <p class="text-sm text-gray-600 mt-1">Biasanya gratis, kode program terbuka untuk umum lihat dan modifikasi. (Contoh: LibreOffice, OpenOffice)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-20">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#006494]">Perbandingan Aplikasi</h2>
+                <p class="text-lg text-center max-w-3xl mx-auto mb-12 text-[#051923]">
+                    Tidak ada yang "terbaik" untuk semua. Lihat perbandingan fitur utama dari aplikasi populer berdasarkan data kualitatif.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <h3 class="text-2xl font-bold text-center text-[#003554] mb-4">Pengolah Dokumen</h3>
+                        <p class="text-center text-sm mb-4">Perbandingan antara Microsoft Word, Google Docs, dan LibreOffice Writer.</p>
+                        <div class="chart-container">
+                            <canvas id="wordChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <h3 class="text-2xl font-bold text-center text-[#003554] mb-4">Lembar Kerja</h3>
+                        <p class="text-center text-sm mb-4">Perbandingan antara Microsoft Excel, Google Sheets, dan LibreOffice Calc.</p>
+                        <div class="chart-container">
+                            <canvas id="sheetChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <h3 class="text-2xl font-bold text-center text-[#003554] mb-4">Presentasi</h3>
+                        <p class="text-center text-sm mb-4">Perbandingan antara Microsoft PowerPoint, Google Slides, dan Canva.</p>
+                        <div class="chart-container">
+                            <canvas id="slideChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-20">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#006494]">Alat yang Tepat untuk Tugas yang Tepat</h2>
+                <p class="text-lg text-center max-w-3xl mx-auto mb-12 text-[#051923]">
+                    Ikuti alur skenario ini untuk menentukan aplikasi mana yang paling sesuai dengan kebutuhan Anda.
+                </p>
+
+                <div class="max-w-5xl mx-auto">
+                    <div class="flowchart-box w-1/2 mx-auto">Mulai: Apa Tugas Anda?</div>
+                    <div class="flowchart-arrow">↓</div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-4">
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="flowchart-box w-full h-full flex items-center justify-center">Membuat makalah kelompok (kolaborasi)?</div>
+                            <div class="flowchart-arrow">↓</div>
+                            <div class="flowchart-result w-full">Google Docs</div>
+                        </div>
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="flowchart-box w-full h-full flex items-center justify-center">Analisis data kompleks & macro (offline)?</div>
+                            <div class="flowchart-arrow">↓</div>
+                            <div class="flowchart-result w-full">Microsoft Excel</div>
+                        </div>
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="flowchart-box w-full h-full flex items-center justify-center">Membuat CV atau poster (desain visual)?</div>
+                            <div class="flowchart-arrow">↓</div>
+                            <div class="flowchart-result w-full">Canva</div>
+                        </div>
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="flowchart-box w-full h-full flex items-center justify-center">Butuh aplikasi lengkap, gratis, & offline?</div>
+                            <div class="flowchart-arrow">↓</div>
+                            <div class="flowchart-result w-full">LibreOffice</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-20">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#006494]">Interoperabilitas: Pentingnya Format File</h2>
+                <p class="text-lg text-center max-w-3xl mx-auto mb-12 text-[#051923]">
+                    File yang Anda buat di satu aplikasi belum tentu terbuka sempurna di aplikasi lain. Format universal adalah kuncinya.
+                </p>
+
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">
+                    
+                    <div class="format-box w-full md:w-2/5">
+                        <h3 class="format-title">Format Standar (Spesifik)</h3>
+                        <p class="text-sm mb-4">Format ini hebat di aplikasi aslinya, tapi bisa berantakan di aplikasi lain.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="format-item">.docx</span>
+                            <span class="format-item">.xlsx</span>
+                            <span class="format-item">.pptx</span>
+                            <span class="format-item">.odt</span>
+                            <span class="format-item">.ods</span>
+                            <span class="format-item">.odp</span>
+                        </div>
+                    </div>
+                    
+                    <div class="text-5xl font-bold text-[#00A6FB] transform -rotate-90 md:rotate-0">
+                        ⇒
+                    </div>
+                    
+                    <div class="format-box w-full md:w-2/5 bg-blue-50 border-blue-200">
+                        <h3 class="format-title text-[#003554]">Format Universal (Paling Aman)</h3>
+                        <p class="text-sm mb-4">Gunakan format ini saat mengirim file agar tampilan tidak berubah.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="format-item bg-red-100 text-red-700 font-semibold">.pdf</span>
+                            <span class="format-item bg-green-100 text-green-700 font-semibold">.csv</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#006494]">Poin Kunci</h2>
+                <p class="text-lg text-center max-w-3xl mx-auto mb-12 text-[#051923]">
+                    Hal-hal penting yang harus diingat saat memilih perangkat lunak.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <div class="bg-white rounded-lg shadow-xl p-6 text-center">
+                        <span class="text-5xl">🤝</span>
+                        <h3 class="text-xl font-bold my-2 text-[#003554]">Prioritaskan Kolaborasi</h3>
+                        <p class="text-gray-700">Jika bekerja dalam tim, gunakan aplikasi berbasis **Cloud** (Google Workspace, M365).</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6 text-center">
+                        <span class="text-5xl">💪</span>
+                        <h3 class="text-xl font-bold my-2 text-[#003554]">Butuh Fitur Canggih?</h3>
+                        <p class="text-gray-700">Untuk analisis data berat atau fitur offline lengkap, pilih aplikasi **Desktop** (Excel, LibreOffice).</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6 text-center">
+                        <span class="text-5xl">📄</span>
+                        <h3 class="text-xl font-bold my-2 text-[#003554]">Kirim Hasil Akhir?</h3>
+                        <p class="text-gray-700">Selalu gunakan format **.pdf** agar tampilan laporan, CV, atau E-book Anda tidak berantakan.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mt-20 pt-10 border-t-2 border-[#00A6FB]">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#006494]">Kesimpulan</h2>
+                
+                <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-6 md:p-8 border-l-4 border-[#00A6FB]">
+                    <p class="text-lg text-[#051923] leading-relaxed mb-4">
+                        Memahami keragaman perangkat lunak produktivitas memberi Kamu kekuatan untuk memilih alat yang tepat untuk tugas yang tepat. Jangan terpaku pada satu merek.
+                    </p>
+                    <ul class="list-disc list-inside space-y-3 text-[#003554] text-md md:text-lg">
+                        <li>
+                            Jika Kamu butuh <strong class="text-[#006494]">kolaborasi cepat</strong>, gunakan aplikasi <strong class="text-[#0582CA]">cloud</strong>.
+                        </li>
+                        <li>
+                            Jika Kamu butuh <strong class="text-[#006494]">fitur power</strong> dan bekerja offline, gunakan aplikasi <strong class="text-[#0582CA]">desktop</strong>.
+                        </li>
+                        <li>
+                            Jika Kamu butuh <strong class="text-[#006494]">desain visual</strong>, gunakan aplikasi <strong class="text-[#0582CA]">desain</strong> (seperti Canva).
+                        </li>
+                        <li>
+                            Selalu perhatikan <strong class="text-[#006494]">format file</strong> saat berbagi pekerjaan Kamu.
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <div class="text-center mt-16 mb-8">
+                <a href="https://masawan1.github.io/dashboardinformatika/" 
+                   class="inline-block bg-[#006494] text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-[#003554] transition-colors duration-300">
+                    Kembali ke Dashboard
+                </a>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const palette = {
+                blue: 'rgba(0, 166, 251, 0.8)',
+                blueBorder: 'rgba(0, 166, 251, 1)',
+                teal: 'rgba(5, 130, 202, 0.8)',
+                tealBorder: 'rgba(5, 130, 202, 1)',
+                darkBlue: 'rgba(0, 53, 84, 0.8)',
+                darkBlueBorder: 'rgba(0, 53, 84, 1)'
+            };
+
+            const commonOptions = {
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        pointLabels: {
+                            font: {
+                                size: 13,
+                                weight: 'bold'
+                            },
+                            color: '#051923'
+                        },
+                        ticks: {
+                            backdropColor: 'rgba(255, 255, 255, 0.75)',
+                            color: '#003554',
+                            stepSize: 1,
+                            min: 0,
+                            max: 3
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            
+            const chartLabels = ['Aksesibilitas', 'Kolaborasi', 'Biaya', ['Fitur', 'Spesifik']];
+            
+            new Chart(document.getElementById('wordChart'), {
+                type: 'radar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [
+                        {
+                            label: 'MS Word',
+                            data: [3, 1, 1, 3],
+                            backgroundColor: palette.blue,
+                            borderColor: palette.blueBorder,
+                            pointBackgroundColor: palette.blueBorder,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Google Docs',
+                            data: [2, 3, 3, 2],
+                            backgroundColor: palette.teal,
+                            borderColor: palette.tealBorder,
+                            pointBackgroundColor: palette.tealBorder,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'LibreOffice Writer',
+                            data: [3, 1, 3, 2],
+                            backgroundColor: palette.darkBlue,
+                            borderColor: palette.darkBlueBorder,
+                            pointBackgroundColor: palette.darkBlueBorder,
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: commonOptions
+            });
+
+            new Chart(document.getElementById('sheetChart'), {
+                type: 'radar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [
+                        {
+                            label: 'MS Excel',
+                            data: [3, 1, 1, 3],
+                            backgroundColor: palette.blue,
+                            borderColor: palette.blueBorder,
+                            pointBackgroundColor: palette.blueBorder,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Google Sheets',
+                            data: [2, 3, 3, 2],
+                            backgroundColor: palette.teal,
+                            borderColor: palette.tealBorder,
+                            pointBackgroundColor: palette.tealBorder,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'LibreOffice Calc',
+                            data: [3, 1, 3, 2],
+                            backgroundColor: palette.darkBlue,
+                            borderColor: palette.darkBlueBorder,
+                            pointBackgroundColor: palette.darkBlueBorder,
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: commonOptions
+            });
+
+            new Chart(document.getElementById('slideChart'), {
+                type: 'radar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [
+                        {
+                            label: 'MS PowerPoint',
+                            data: [3, 2, 1, 3],
+                            backgroundColor: palette.blue,
+                            borderColor: palette.blueBorder,
+                            pointBackgroundColor: palette.blueBorder,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Google Slides',
+                            data: [2, 3, 3, 2],
+                            backgroundColor: palette.teal,
+                            borderColor: palette.tealBorder,
+                            pointBackgroundColor: palette.tealBorder,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Canva',
+                            data: [2, 2, 2, 3],
+                            backgroundColor: palette.darkBlue,
+                            borderColor: palette.darkBlueBorder,
+                            pointBackgroundColor: palette.darkBlueBorder,
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: commonOptions
+            });
+        });
+    </script>
+
+</body>
+</html>
